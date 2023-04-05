@@ -1,6 +1,5 @@
 package com.jobportal.system.service;
 
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,7 @@ public interface UserService {
 
     void changePassword(String currentPassword, String newPassword);
 
-    User registerUser(@Valid User managedUserVM);
+    User registerUser(@jakarta.validation.Valid User managedUserVM);
 
   
     

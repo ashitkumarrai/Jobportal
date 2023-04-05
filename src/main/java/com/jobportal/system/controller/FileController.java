@@ -18,9 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jobportal.system.entity.File;
 import com.jobportal.system.exceptionhandler.RecordNotFoundException;
 import com.jobportal.system.repository.FileRepository;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 

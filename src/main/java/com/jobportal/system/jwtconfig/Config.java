@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /*@Configuration
 @EnableWebSecurity
@@ -135,17 +136,16 @@ public class Config {
 		httpSecurity.csrf().disable().cors().and()
 				.authorizeRequests()
 
-				.antMatchers(WHITELIST_URL).permitAll()
-				.antMatchers(HttpMethod.GET, "/toolcard/**").permitAll()
-				 .antMatchers(HttpMethod.OPTIONS, "/toolcard/**").permitAll()
-
-				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-				.antMatchers("/user/**").hasAnyAuthority("ADMIN", "USER")
-				.antMatchers("/employer/**").hasAnyAuthority("EMPLOYER")
-				//posts Methods
-				.antMatchers( "/toolcard/create").hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers(WHITELIST_URL).permitAll()
 				
-				.antMatchers("/comment/**").hasAnyAuthority("ADMIN", "USER")
+
+				.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
+				.requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers(new AntPathRequestMatcher("/employer/**")).hasAnyAuthority("EMPLOYER")
+				//posts Methods
+				
+				
+				
 
 				.anyRequest().authenticated().and()
 

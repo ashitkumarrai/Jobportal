@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.validation.Valid;
 import lombok.*;
 
 @Data
@@ -14,6 +15,8 @@ import lombok.*;
 @Component
 @Builder
 public class Candidate {
+
+    @Valid
     private User user;
 
     @JsonIgnoreProperties(value = {"candidatesApplied"})

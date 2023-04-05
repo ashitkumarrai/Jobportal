@@ -14,10 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-
+import jakarta.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.NoArgsConstructor;
 
 
@@ -35,10 +35,10 @@ public class User {
 
     
 	
-    @Length(min = 3, max = 15, message = "must have min 3 chars and max 15 ")
+    
     
 
-	@Pattern(regexp = "([\\w_\\.]){3,15}", message = "must be alpha-numeric [can contains underscore(_)or dot(.) and @]")
+	@Pattern(regexp = "([\\w_\\.]){3,15}", message = " username must be alpha-numeric [can contains underscore(_)or dot(.) and @]")
 	
 	private String username;
 

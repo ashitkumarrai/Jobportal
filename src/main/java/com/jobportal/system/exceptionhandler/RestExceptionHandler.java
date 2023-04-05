@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +22,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     
        
+        @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+      HttpStatusCode status, WebRequest request) {
+
+
+                  List details = new ArrayList<>();
+          ex.getBindingResult().getAllErrors().forEach( error->details.add(error.getDefaultMessage()));
+          //ErrorResponse error = new ErrorResponse("Validation Failed", details, ex.getClass().getName());
+
+          ProblemDetail error = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,details.toString());
+          return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+    
+  }
+
         @ExceptionHandler(RecordNotFoundException.class)
         public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex, WebRequest request) {
           List<String> details = new ArrayList<>();
@@ -28,14 +44,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
           return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
         }
        
-        @Override
-        protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest request) {
-          List<String> details = new ArrayList<>();
-          ex.getBindingResult().getAllErrors().forEach( error->details.add(error.getDefaultMessage()));
-          ErrorResponse error = new ErrorResponse("Validation Failed", details, ex.getClass().getName());
-          return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-        }
+  
         
 
 

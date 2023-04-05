@@ -29,6 +29,8 @@ import com.jobportal.system.repository.CandidateRepository;
 import com.jobportal.system.repository.EmployerRepository;
 import com.jobportal.system.repository.JobRepository;
 import com.jobportal.system.repository.UserRepository;
+
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
@@ -57,7 +59,7 @@ public class CandidateController {
     }
 
     @PostMapping("/candidate/signup")
-    public ResponseEntity candidateSignUp(@RequestBody Candidate candidate) throws URISyntaxException {
+    public ResponseEntity candidateSignUp(@RequestBody @Valid Candidate candidate) throws URISyntaxException {
 
         User user = User.builder().id(SystemApplication.idautoPlus++).firstName(candidate.getUser().getFirstName())
                 .lastName(candidate.getUser().getLastName()).username(candidate.getUser().getUsername())
