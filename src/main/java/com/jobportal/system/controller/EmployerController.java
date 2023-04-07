@@ -68,8 +68,12 @@ public class EmployerController {
                 for (Employer emp : SystemApplication.employers) {
                         if (emp.getUser().getUsername().equals(employer.getUser().getUsername())) {
 
-                                if (Optional.ofNullable(emp.getCreatedJobs()).isPresent())
-                                        emp.getCreatedJobs().add(jobDto);
+                                if (Optional.ofNullable(emp.getCreatedJobs()).isPresent()) {
+                                        ArrayList<Job> temp = new ArrayList<>();
+                                        temp.addAll(emp.getCreatedJobs());
+                                        temp.add(jobDto);
+                                        emp.setCreatedJobs(temp);
+                                }
 
                                 else {
                                         emp.setCreatedJobs(new ArrayList(List.of(jobDto)));

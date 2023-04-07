@@ -42,7 +42,7 @@ public class Job {
 
 
     
-   @JsonIgnoreProperties({"appliedJobs"})
+   @JsonIgnoreProperties({"createdJobs"})
     private Employer employer;
      @JsonIgnoreProperties(value={"appliedJobs","workExperiences","resumeUrl","certification","education","skills"})
     private List<Candidate> candidatesApplied;
