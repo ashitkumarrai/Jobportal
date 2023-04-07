@@ -80,8 +80,14 @@ public class User {
 	//for extra email event 
     private boolean enabled;
     
-    private String adress;
+	private String adress;
 	
+	
+	
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	//@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private VerificationToken token;
 
 
 }

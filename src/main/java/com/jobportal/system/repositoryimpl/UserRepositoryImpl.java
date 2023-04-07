@@ -11,7 +11,6 @@ import com.jobportal.system.repository.UserRepository;
 
 import lombok.extern.log4j.Log4j2;
 @Repository
-@Log4j2
 public class UserRepositoryImpl implements UserRepository{
 
     @Override
@@ -41,6 +40,16 @@ public class UserRepositoryImpl implements UserRepository{
     public boolean existsById(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'existsById'");
+    }
+
+    @Override
+    public Optional<User> findByTokenToken(String token) {
+
+        return SystemApplication.users.stream()
+                .filter((user) -> user.getToken() != null && user.getToken().getToken().equals(token)).findFirst();
+
+
+        
     }
     
 }

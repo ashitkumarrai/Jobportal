@@ -1,6 +1,5 @@
 package com.jobportal.system;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -23,6 +22,7 @@ import com.jobportal.system.entity.File;
 import com.jobportal.system.entity.Job;
 import com.jobportal.system.entity.Role;
 import com.jobportal.system.entity.User;
+import com.jobportal.system.entity.VerificationToken;
 import com.jobportal.system.entity.WorkExperience;
 
 @SpringBootApplication
@@ -42,7 +42,10 @@ public class SystemApplication  implements CommandLineRunner{
 	public static List<File> files = new ArrayList<>();
 	public static final Set<Role> employerRole = new HashSet<>(List.of(new Role(3l,"EMPLOYER")));
 	public static final Set<Role> candidateRole = new HashSet<>(List.of(new Role(2l, "CANDIDATE")));
-	public static final Set<Role> adminRole = new HashSet<>(List.of(new Role(1l,"ADMIN")));
+	public static final Set<Role> adminRole = new HashSet<>(List.of(new Role(1l, "ADMIN")));
+	
+
+	public static List<VerificationToken> verificationTokens = new ArrayList<>();
 
 	@Autowired
 	PasswordEncoder passwordEncoder;

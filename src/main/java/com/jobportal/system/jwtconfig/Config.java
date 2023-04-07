@@ -61,6 +61,7 @@ public class Config {
 				"/media/**",
 				"/candidate/signup/**",
 				"/employer/signup/**",
+				"/verify/**",
 				"/show/**"
 				
 
