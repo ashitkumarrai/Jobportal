@@ -76,7 +76,7 @@ public class User {
 	private Set<Role> roles;
 	
 	
-	@JsonProperty(access = Access.WRITE_ONLY)
+	//@JsonProperty(access = Access.WRITE_ONLY)
 	//for extra email event 
     private boolean enabled;
     

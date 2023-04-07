@@ -7,34 +7,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.jobportal.system.SystemApplication;
 import com.jobportal.system.entity.Candidate;
 import com.jobportal.system.entity.Job;
 import com.jobportal.system.entity.User;
+import com.jobportal.system.entity.VerificationToken;
 import com.jobportal.system.exceptionhandler.RecordNotFoundException;
 import com.jobportal.system.jwtconfig.SecurityUtils;
+import com.jobportal.system.payload.EmailDetails;
 import com.jobportal.system.repository.CandidateRepository;
 import com.jobportal.system.repository.EmployerRepository;
 import com.jobportal.system.repository.JobRepository;
 import com.jobportal.system.repository.UserRepository;
+import com.jobportal.system.service.EmailService;
 
 import jakarta.validation.Valid;
 
 
 @RestController
 public class CandidateController {
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     CandidateRepository cr;
@@ -63,7 +73,7 @@ public class CandidateController {
         User user = User.builder().id(SystemApplication.idautoPlus++).firstName(candidate.getUser().getFirstName())
                 .lastName(candidate.getUser().getLastName()).username(candidate.getUser().getUsername())
                 .email(candidate.getUser().getEmail()).contact(candidate.getUser().getContact())
-                .adress(candidate.getUser().getAdress()).enabled(true)
+                .adress(candidate.getUser().getAdress())
                 .password(passwordEncoder.encode(candidate.getUser().getPassword()))
                 .roles(SystemApplication.candidateRole).build();
 
@@ -75,10 +85,47 @@ public class CandidateController {
 
        
 
-        // cascading to user
+       //Sending email to admin with activation link
+
+                //link https://localhost:8080/verify/email/?  token=t8kcpMSyeZTv8m1aeiD-GVZgiNz7rgjW4W88XLDz1rc
+
+
+
+                String token = UUID.randomUUID().toString();
+                VerificationToken vt = new VerificationToken(user.getId(),token);
+        
+                user.setToken(vt);
+
+
+                // for Admin Approval, Email will be send to admin email i'd
+
+        EmailDetails emailDetails = new EmailDetails();
+
+        emailDetails.setRecipient(user.getEmail());
+        emailDetails.setSubject("Job Portal Email Verification");
+
+        MultiValueMap<String, String> urlParams = new LinkedMultiValueMap<>();
+
+        urlParams.add("id", candidateDto.getUser().getId().toString());
+        urlParams.add("token", user.getToken().getToken());
+
+        URI loc = ServletUriComponentsBuilder.fromCurrentContextPath().path("/verify/email").queryParams(urlParams)
+                .buildAndExpand().toUri();
+
+        String approvalLink = loc.toString();
+        emailDetails.setMsgBody(
+                "Hi I'm admin from job Portal System "
+                        + "\n\n To verify your I'D click on this verification link: " + approvalLink);
+
+        emailService.sendSimpleMail(emailDetails);
+
+
 
         return ResponseEntity.created(new URI("/admin/candidate/" + candidate.getUser().getId()))
                 .body(cr.saveOrUpdate(candidateDto).get());
+
+
+
 
     }
 

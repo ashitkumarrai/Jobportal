@@ -182,13 +182,14 @@ public class EmployerController {
         tempUser = userRepository.findByTokenToken(token)
                 .orElseThrow(() -> new RecordNotFoundException("token is not found in db"));
 
-        Employer tempEmp = employerRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Employer is not found in db"));
+        
+                // Employer tempEmp = employerRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Employer is not found in db"));
         Map<String, String> r = new HashMap<>();
 
-        if (tempUser != null && tempEmp.getUser().getId().equals(id)) {
+        if (tempUser != null ) {
             tempUser.setEnabled(true);
-            employerRepository.saveOrUpdate(tempEmp);
-            r.put("Response", "Employer Registeration Approved.");
+           // employerRepository.saveOrUpdate(tempEmp);
+            r.put("Response", " Registeration Approved.");
             return new ResponseEntity<Object>(r, HttpStatus.OK);
         } else {
             r.put("Response", "id & token doesn't matched!");
