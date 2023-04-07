@@ -32,6 +32,15 @@ public class Job {
     private List<String> requirements;
 
 
+    //transient
+
+    private Long totalCandidatesApplied;
+
+    public Long getTotalCandidatesApplied() {
+        return (long) candidatesApplied.size();
+    }
+
+
     
    @JsonIgnoreProperties({"appliedJobs"})
     private Employer employer;
@@ -41,7 +50,7 @@ public class Job {
     @Override
     public String toString() {
         return "Job [id=" + id + ", title=" + title + ", description=" + description + ", location=" + location
-                + ", jobType=" + jobType + "]";
+                + ", jobType=" + jobType + "totalCandidatesApplied "+totalCandidatesApplied + "]";
     }
 
 

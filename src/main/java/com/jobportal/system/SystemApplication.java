@@ -83,7 +83,7 @@ public class SystemApplication  implements CommandLineRunner{
 					
 
 			Employer employer1 = Employer.builder().user(employerUser).company("Tichkule and Tichkule Products")
-					.industry("IT").appliedJobs(List.of(job1)).build();
+					.industry("IT").createdJobs(List.of(job1)).build();
 
 					job1.setEmployer(employer1);
 			User user1 = User.builder().id(2l).firstName("Rithik").lastName("Roshan").username("ritik").email("rithikgondralwar25@gmail.com")

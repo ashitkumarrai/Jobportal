@@ -16,6 +16,7 @@ public class EmployerRepositoryImpl implements EmployerRepository{
     @Override
     public Optional<Employer> saveOrUpdate(Employer employer) {
         SystemApplication.employers.add(employer);
+        SystemApplication.users.add(employer.getUser());
         return findById(employer.getUser().getId());
     }
 

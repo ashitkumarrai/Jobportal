@@ -97,7 +97,7 @@ public class FileController {
 	void showMedia(@PathVariable("id") String id, HttpServletResponse response)
             throws ServletException, IOException {
         Optional<File> ff = fr.findById(id);
-        response.setContentType("image/jpeg, image/jpg, image/png, application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        response.setContentType(ff.get().getMediaContentType());
 
         if (!ff.isPresent()) {
             try {

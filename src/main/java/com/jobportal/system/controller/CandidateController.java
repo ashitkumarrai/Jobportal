@@ -31,10 +31,9 @@ import com.jobportal.system.repository.JobRepository;
 import com.jobportal.system.repository.UserRepository;
 
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
+
 
 @RestController
-@Log4j2
 public class CandidateController {
 
     @Autowired
@@ -96,10 +95,7 @@ public class CandidateController {
             throw new RecordNotFoundException("logged in User not found");
 
         }
-        // if (userr.get().getRoles().equals(SystemApplication.adminRole)) {
-        // hashMap.put("response", "Admin don't have access to change user profile");
-        // return new ResponseEntity(hashMap, HttpStatus.FORBIDDEN);
-        // }
+       
         Optional<Candidate> result = cr.updateCandidateById(userr.get().getId(), candidate);
 
         hashMap.put("Response", result.get());

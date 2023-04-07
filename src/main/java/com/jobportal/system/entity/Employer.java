@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.*;
 
 @Data
@@ -21,17 +23,10 @@ public class Employer {
 
     private String industry;
     @Builder.Default
-    private List<Job> appliedJobs = new ArrayList<>();
+    @JsonIgnoreProperties(value = {"employer"})
+    private List<Job> createdJobs = new ArrayList<>();
 
 
 
-    public void addJob(Job appliedJob) {
-        appliedJobs.add(appliedJob);
-        appliedJob.setEmployer(this);
-    }
-
-    public void removeJob(Job appliedJob) {
-        appliedJobs.remove(appliedJob);
-        appliedJob.setEmployer(null);
-    }
+  
 }
