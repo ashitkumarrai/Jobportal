@@ -62,31 +62,39 @@ public class Config {
 				"/candidate/signup/**",
 				"/employer/signup/**",
 				"/verify/**",
-				"/show/**"
+				"/authenticate/**"
 				
 
 		};
 
-		httpSecurity.csrf().disable().cors().and()
-				.authorizeRequests()
 
-				.requestMatchers(WHITELIST_URL).permitAll()
+        httpSecurity
+        .csrf(csrf -> csrf.disable()).cors(cors->cors.disable())
+        .authorizeHttpRequests(auth -> auth
+        .requestMatchers(WHITELIST_URL).permitAll()
 				
 
-				.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
-				.requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers(new AntPathRequestMatcher("/employer/**")).hasAnyAuthority("EMPLOYER")
-				//posts Methods
-				
-				
-				
+        .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")
+        .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("ADMIN", "USER")
+        .requestMatchers(new AntPathRequestMatcher("/employer/**")).hasAnyAuthority("EMPLOYER")
+        //posts Methods
+        
+        
+        
 
-				.anyRequest().authenticated().and()
+        .anyRequest().authenticated()
 
-				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        ).exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    
+        .build();
 
+
+
+
+		
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		return httpSecurity.build();
 	}
 }
+
