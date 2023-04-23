@@ -62,7 +62,7 @@ public class User {
 	private String email;
 
 
-	@Pattern(regexp="^[2-9]{2}\\d{8}$",message= "phone number not valid")
+	//@Pattern(regexp="^[2-9]{2}\\d{8}$",message= "phone number not valid")
     private String contact;
 	
 	
