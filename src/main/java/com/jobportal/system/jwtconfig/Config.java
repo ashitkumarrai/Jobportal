@@ -85,9 +85,9 @@ public class Config {
         .anyRequest().authenticated()
 
         ).exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     
-        .build();
+     
 
 
 
