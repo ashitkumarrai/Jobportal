@@ -65,6 +65,7 @@ public class EmailServiceImpl implements EmailService {
             // Display message when exception occurred
             String status = "Error while sending mail!!!";
             map.put("Response", status);
+            System.out.println("somethoing wrong in mail server"+e.getMessage());
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
 
         }

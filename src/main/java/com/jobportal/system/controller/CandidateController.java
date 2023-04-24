@@ -116,8 +116,11 @@ public class CandidateController {
         emailDetails.setMsgBody(
                 "Hi I'm admin from job Portal System "
                         + "\n\n To verify your I'D click on this verification link: " + approvalLink);
-
-        emailService.sendSimpleMail(emailDetails);
+              System.out.println("sending mail to "+emailDetails.getRecipient());
+       try{ emailService.sendSimpleMail(emailDetails);}
+       catch (Exception e) {
+        System.out.println(e.getMessage());
+       }
 
 
 
