@@ -3,6 +3,7 @@ package com.jobportal.system.jwtconfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -54,7 +55,7 @@ public class Config {
 				"/swagger-resources/**",
 				"/swagger-ui/**",
 				"/v3/api-docs",
-				"/auth/**",
+				"/auth/usertoken",
 				"/register/**",
 				"/h2-console/**",
 				"/webjars/**",
@@ -62,6 +63,7 @@ public class Config {
 				"/candidate/signup/**",
 				"/employer/signup/**",
 				"/verify/**",
+				"/show/**",
 				"/authenticate/**"
 				
 
@@ -69,9 +71,11 @@ public class Config {
 
 
         httpSecurity
-        .csrf(csrf -> csrf.disable()).cors(cors->cors.disable())
+				.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable())
+				
         .authorizeHttpRequests(auth -> auth
-        .requestMatchers(WHITELIST_URL).permitAll()
+						.requestMatchers(WHITELIST_URL).permitAll()
+						.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				
 
         .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN")

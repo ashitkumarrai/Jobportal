@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.system.entity.User;
 import com.jobportal.system.exceptionhandler.UserBadCredentialsException;
 import com.jobportal.system.exceptionhandler.UserDisabledException;
+import com.jobportal.system.repository.UserRepository;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -44,16 +46,18 @@ public class JwtAuthenticationController {
 	public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws UserDisabledException, UserBadCredentialsException {
                 
-                
+               
         
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+		
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 		//util is giving token
 		final String token = jwtTokenUtil.generateToken(userDetails);
+		UserDetails user = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		return ResponseEntity.ok(new JwtResponse(token,user));
 	}
 
 	
@@ -70,9 +74,15 @@ public class JwtAuthenticationController {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
 			//for disabled user
+			
 			throw new UserDisabledException("USER_DISABLED");
 		} catch (BadCredentialsException e) {
+
+			log.info("inside auth usertoken controller");
 			// for INVALID_CREDENTIALS
+			throw new UserBadCredentialsException("INVALID_CREDENTIALS");
+		}
+		catch (Exception e) {
 			throw new UserBadCredentialsException("INVALID_CREDENTIALS");
 		}
 	}

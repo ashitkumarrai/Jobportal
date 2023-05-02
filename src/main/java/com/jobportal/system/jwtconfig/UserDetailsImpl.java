@@ -48,8 +48,14 @@ public class UserDetailsImpl implements UserDetails{
 
     @Override
     public String getUsername() {
-      
+
         return this.user.getUsername();
+    }
+    
+
+    public String getEmail() {
+      
+        return this.user.getEmail();
     }
 
     @Override
@@ -74,7 +80,7 @@ public class UserDetailsImpl implements UserDetails{
     @Override
     public boolean isEnabled() {
         // it should return user isEnable......(user.isenabled())
-        return user.isEnabled();
+        return true;
     }
     
 }

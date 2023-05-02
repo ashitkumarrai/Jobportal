@@ -112,7 +112,7 @@ public class EmployerController {
                                 .username(employer.getUser().getUsername()).email(employer.getUser().getEmail())
                                 .contact(employer.getUser().getContact()).adress(employer.getUser().getAdress())
                                 .password(passwordEncoder.encode(employer.getUser().getPassword()))
-                                .roles(SystemApplication.employerRole).build();
+                                .roles(SystemApplication.employerRole).imageUrl(employer.getUser().getImageUrl()).build();
                 Employer employerDto = Employer.builder().user(user).createdJobs(new ArrayList<>())
                                 .company(employer.getCompany()).industry(employer.getIndustry()).build();
                 

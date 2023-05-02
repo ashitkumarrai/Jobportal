@@ -51,16 +51,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(UserDisabledException.class)
   public final ResponseEntity<Object> handleUserDisabled(UserDisabledException ex, WebRequest request) {
 
-    ErrorResponse error = new ErrorResponse("User is disable contact admin to enable", ex.getClass().getName());
-    
-    return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    ProblemDetail error = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,"user is disabled (verification of mail needed to activate) ");
+    System.out.println(error);
+
+    return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
   }
         
   @ExceptionHandler(UserBadCredentialsException.class)
   public final ResponseEntity<Object> handleUserBadCredentials(UserBadCredentialsException ex, WebRequest request) {
+                    
+    ProblemDetail error = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,"Invalid Credentials ");
+    System.out.println(error);
 
-    ErrorResponse error = new ErrorResponse("Bad Credentials", ex.getClass().getName());
-    return new ResponseEntity<Object>(error, HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
   }
   
 
